@@ -61,10 +61,23 @@ const char *get_csv_field (char * tmp, int k) {
 }
 
 //Funcion para guardar el contenido leido desde un archivo csv en una lista de canciones
-void leerArchivo(List * listaUsuario, FILE * archivo){ 
+void importarArchivo(List * listaUsuario){
+    char csv[50];
+    printf("Ingrese el nombre del archivo a importar: ");
+    
+    getchar;
+    scanf("%49[^\n]s",csv);
+    FILE *archivo = fopen (csv, "r");
+
+    if(archivo == NULL){
+
+        printf("Archivo no encontrado");
+
+    }else{
+
     char * linea = (char*)malloc(1024*sizeof(char));
     while(fgets(linea,1023,archivo) != NULL){
-
+        
         Cancion * aux = (Cancion *) malloc (sizeof(Cancion));
 
         strcpy(aux->Titulo,get_csv_field(linea,0));
@@ -91,16 +104,21 @@ void leerArchivo(List * listaUsuario, FILE * archivo){
             pushBack(aux2->listaCanciones,aux);
         }
     }
+    }
     //editar
 }
 
 void agregarCancion(List * listaUsuario){
     Cancion * new = (Cancion *) malloc (sizeof(Cancion));
-    printf("ingresa el nombre de la cancion\n");
+    printf("ingresa el titulo de la cancion\n");
     gets(new->Titulo);
+    printf("ingresa el artista de la cancion\n");
     gets(new->artista);
+    printf("ingresa el genero de la cancion\n");
     gets(new->genero);
+    printf("ingresa el anio de la cancion\n");
     scanf("%d",new->anho);
+    printf("ingresa la lista de reproduccion a la que pertenece\n");
     gets(new->listaReproduccion);
     
     ListaReproduccion * aux = firstList(listaUsuario);
