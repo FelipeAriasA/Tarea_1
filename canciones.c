@@ -4,7 +4,7 @@
 #include <string.h>
 #include "list.h"
 
-//Estructura para guardar a cada persona como un bombero con su rut, nombre y disponibilidad semanal
+//Estructura para guardar a cada cancion con su titulo, artista, genero, año y lista de reproduccion.
 typedef struct{
     char Titulo[30];
     char artista[30];
@@ -13,6 +13,7 @@ typedef struct{
     char listaReproduccion[9];
 }Cancion;
 
+//Estructura para guardar a cada lista de reproduccion en una lista
 typedef struct{
     char nombreLista[9];
     List * listaCanciones;
@@ -90,13 +91,12 @@ void leerArchivo(List * listasUsuario, FILE * archivo){
             pushBack(aux2->listaCanciones,aux);
         }
     }
-    //hola
+    //editar
 }
 
 void agregarCancion(List * listasUsuario){
     Cancion * new = (Cancion *) malloc (sizeof(Cancion));
-    printf("ingresa la wea de nombre\n");
-    //hola
+    printf("ingresa el nombre de la cancion\n");
     gets(new->Titulo);
     gets(new->artista);
     gets(new->genero);
@@ -129,7 +129,7 @@ void agregarCancion(List * listasUsuario){
             pushBack(aux->listaCanciones,new);
         }
         else{
-            //hola
+            //editar
         }
     }
 }
@@ -151,12 +151,12 @@ void buscarPorNombre(List * listasUsuario){
         }
         if(aux2 != NULL){
             printf("Titulo: %s\n",aux2->Titulo);
-            //hola
+            //editar
         }
         aux = nextList(listasUsuario);
     }
     if(flag == 0){
-        printf("no sta");
+        printf("la canción no se encuentra");
     }
 }
 
