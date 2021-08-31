@@ -7,7 +7,7 @@ typedef struct{
     char artista[30];
     char genero[30];
     int anho; 
-    char reproduccion[9];
+    char listaReproduccion[9];
 }Cancion;
 
 typedef struct{
@@ -15,23 +15,23 @@ typedef struct{
     List * listaCanciones;
 }ListaReproduccion;
 
-void importarArchivo(List* listaUsuario, char* archivo);
+void importarArchivo(List* listaUsuario);
 
-void exportarArchivo(List listaUsuario, char* archivo);
+void exportarArchivo(List listaUsuario);
 
-void agregarCancion(List* listaUsuario, char* nombre, char* artista, char* generos, int ano, char* ListaReproduccion);
+void agregarCancion(List* listaUsuario);
 
-void buscarNombre(List* listaUsuario, char* nombre);
+void buscarNombre(List* listaUsuario);
 
-void buscarArtista(List* listaUsuario, char* artista);
+void buscarArtista(List* listaUsuario);
 
-void buscarGenero(List* listaUsuario, char* genero);
+void buscarGenero(List* listaUsuario);
 
-void eliminarCancion(List* listaUsuario, char* nombre);
+void eliminarCancion(List* listaUsuario);
 
 void mostrarListas(List* listaUsuario);
 
-void cancionesLista(List* listaUsuario, char* listaReproduccion);
+void cancionesLista(List* listaUsuario);
 
 void mostrarCanciones(List* lsitaUsuario);
 

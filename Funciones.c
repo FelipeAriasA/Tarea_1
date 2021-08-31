@@ -61,7 +61,7 @@ const char *get_csv_field (char * tmp, int k) {
 }
 
 //Funcion para guardar el contenido leido desde un archivo csv en una lista de canciones
-void leerArchivo(List * listasUsuario, FILE * archivo){ 
+void leerArchivo(List * listaUsuario, FILE * archivo){ 
     char * linea = (char*)malloc(1024*sizeof(char));
     while(fgets(linea,1023,archivo) != NULL){
 
@@ -73,19 +73,19 @@ void leerArchivo(List * listasUsuario, FILE * archivo){
         aux->anho = atoi(get_csv_field(linea,3));
         strcpy(aux->listaReproduccion,get_csv_field(linea,4));
 
-        ListaReproduccion * aux2 = firstList(listasUsuario);
+        ListaReproduccion * aux2 = firstList(listaUsuario);
         while(aux2 != NULL){
             if(strcmp(aux->listaReproduccion,aux2->nombreLista) == 0){
                 break;
             }
-            aux2 = nextList(listasUsuario);
+            aux2 = nextList(listaUsuario);
         }
         if(aux2 == NULL){
             aux2 = (ListaReproduccion * )malloc(sizeof(ListaReproduccion));
             strcpy(aux2->nombreLista,aux->listaReproduccion);
             aux2->listaCanciones = createList();
             pushBack(aux2->listaCanciones,aux);
-            pushBack(listasUsuario,aux2);
+            pushBack(listaUsuario,aux2);
         }
         else{
             pushBack(aux2->listaCanciones,aux);
@@ -94,7 +94,7 @@ void leerArchivo(List * listasUsuario, FILE * archivo){
     //editar
 }
 
-void agregarCancion(List * listasUsuario){
+void agregarCancion(List * listaUsuario){
     Cancion * new = (Cancion *) malloc (sizeof(Cancion));
     printf("ingresa el nombre de la cancion\n");
     gets(new->Titulo);
@@ -103,19 +103,19 @@ void agregarCancion(List * listasUsuario){
     scanf("%d",new->anho);
     gets(new->listaReproduccion);
     
-    ListaReproduccion * aux = firstList(listasUsuario);
+    ListaReproduccion * aux = firstList(listaUsuario);
     while(aux != NULL){
         if(strcmp(new->listaReproduccion,aux->nombreLista) == 0){
             break;
         }
-        aux = nextList(listasUsuario);
+        aux = nextList(listaUsuario);
     }
     if(aux == NULL){
         aux = (ListaReproduccion * )malloc(sizeof(ListaReproduccion));
         strcpy(aux->nombreLista,new->listaReproduccion);
         aux->listaCanciones = createList();
         pushBack(aux->listaCanciones,new);
-        pushBack(listasUsuario,aux);
+        pushBack(listaUsuario,aux);
     }
     else{
         Cancion * aux2 = firstList(aux->listaCanciones);
@@ -134,12 +134,12 @@ void agregarCancion(List * listasUsuario){
     }
 }
 
-void buscarPorNombre(List * listasUsuario){
+void buscarPorNombre(List * listaUsuario){
     char tituloBuscado[30];
     gets(tituloBuscado);
 
     int flag = 0;
-    ListaReproduccion * aux = firstList(listasUsuario);
+    ListaReproduccion * aux = firstList(listaUsuario);
     while(aux != NULL){
         Cancion * aux2 = firstList(aux->listaCanciones);
         while(aux2 != NULL){
@@ -153,7 +153,7 @@ void buscarPorNombre(List * listasUsuario){
             printf("Titulo: %s\n",aux2->Titulo);
             //editar
         }
-        aux = nextList(listasUsuario);
+        aux = nextList(listaUsuario);
     }
     if(flag == 0){
         printf("la canción no se encuentra");
