@@ -3,7 +3,21 @@
 #include <assert.h>
 #include <string.h>
 #include "list.h"
-#include "Funciones.h"
+
+//Estructura para guardar a cada cancion con su titulo, artista, genero, año y lista de reproduccion.
+typedef struct{
+    char Titulo[30];
+    char artista[30];
+    char genero[30];
+    int anho; 
+    char listaReproduccion[9];
+}Cancion;
+
+//Estructura para guardar a cada lista de reproduccion en una lista
+typedef struct{
+    char nombreLista[9];
+    List * listaCanciones;
+}ListaReproduccion;
 
 //Funcion para leer el contenido de un archivo csv
 const char *get_csv_field (char * tmp, int k) {
@@ -46,29 +60,62 @@ const char *get_csv_field (char * tmp, int k) {
     return NULL;
 }
 
-void agregarCancion(List* listaUsuario, char* nombre, char* artista, char* generos, int ano, char* reproduccion){
+//Funcion para guardar el contenido leido desde un archivo csv en una lista de canciones
+void leerArchivo(List * listasUsuario, FILE * archivo){ 
+    char * linea = (char*)malloc(1024*sizeof(char));
+    while(fgets(linea,1023,archivo) != NULL){
+
+        Cancion * aux = (Cancion *) malloc (sizeof(Cancion));
+
+        strcpy(aux->Titulo,get_csv_field(linea,0));
+        strcpy(aux->artista,get_csv_field(linea,1));
+        strcpy(aux->genero,get_csv_field(linea,2));
+        aux->anho = atoi(get_csv_field(linea,3));
+        strcpy(aux->listaReproduccion,get_csv_field(linea,4));
+
+        ListaReproduccion * aux2 = firstList(listasUsuario);
+        while(aux2 != NULL){
+            if(strcmp(aux->listaReproduccion,aux2->nombreLista) == 0){
+                break;
+            }
+            aux2 = nextList(listasUsuario);
+        }
+        if(aux2 == NULL){
+            aux2 = (ListaReproduccion * )malloc(sizeof(ListaReproduccion));
+            strcpy(aux2->nombreLista,aux->listaReproduccion);
+            aux2->listaCanciones = createList();
+            pushBack(aux2->listaCanciones,aux);
+            pushBack(listasUsuario,aux2);
+        }
+        else{
+            pushBack(aux2->listaCanciones,aux);
+        }
+    }
+    //editar
+}
+
+void agregarCancion(List * listasUsuario){
     Cancion * new = (Cancion *) malloc (sizeof(Cancion));
-    printf("Ingrese los datos de la cancion\n");
-    //hola
+    printf("ingresa el nombre de la cancion\n");
     gets(new->Titulo);
     gets(new->artista);
     gets(new->genero);
     scanf("%d",new->anho);
-    gets(new->reproduccion);
+    gets(new->listaReproduccion);
     
-    ListaReproduccion * aux = firstList(listaUsuario);
+    ListaReproduccion * aux = firstList(listasUsuario);
     while(aux != NULL){
-        if(strcmp(new->reproduccion,aux->nombreLista) == 0){
+        if(strcmp(new->listaReproduccion,aux->nombreLista) == 0){
             break;
         }
-        aux = nextList(listaUsuario);
+        aux = nextList(listasUsuario);
     }
     if(aux == NULL){
         aux = (ListaReproduccion * )malloc(sizeof(ListaReproduccion));
-        strcpy(aux->nombreLista,new->reproduccion);
+        strcpy(aux->nombreLista,new->listaReproduccion);
         aux->listaCanciones = createList();
         pushBack(aux->listaCanciones,new);
-        pushBack(listaUsuario,aux);
+        pushBack(listasUsuario,aux);
     }
     else{
         Cancion * aux2 = firstList(aux->listaCanciones);
@@ -82,17 +129,17 @@ void agregarCancion(List* listaUsuario, char* nombre, char* artista, char* gener
             pushBack(aux->listaCanciones,new);
         }
         else{
-            //hola
+            //editar
         }
     }
 }
 
-void buscarPorNombre(List * listaUsuario){
+void buscarPorNombre(List * listasUsuario){
     char tituloBuscado[30];
     gets(tituloBuscado);
 
     int flag = 0;
-    ListaReproduccion * aux = firstList(listaUsuario);
+    ListaReproduccion * aux = firstList(listasUsuario);
     while(aux != NULL){
         Cancion * aux2 = firstList(aux->listaCanciones);
         while(aux2 != NULL){
@@ -104,11 +151,18 @@ void buscarPorNombre(List * listaUsuario){
         }
         if(aux2 != NULL){
             printf("Titulo: %s\n",aux2->Titulo);
-            
+            //editar
         }
-        aux = nextList(listaUsuario);
+        aux = nextList(listasUsuario);
     }
     if(flag == 0){
-        printf("no esta");
+        printf("la canción no se encuentra");
     }
 }
+
+
+/*Cancion * a;
+
+for(int i = 0;get_csv_field(a->genero,i) != NULL; i++){
+
+}*/
